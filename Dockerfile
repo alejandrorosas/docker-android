@@ -25,3 +25,6 @@ RUN wget $GRADLE_URL -O gradle.zip \
  && mkdir .gradle
 
 ENV PATH ${PATH}:${PWD}/sdk/platform-tools:${PWD}/gradle/bin
+
+# Run gradle to avoid Welcome message
+RUN gradle --version

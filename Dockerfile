@@ -9,13 +9,15 @@ RUN apt-get --quiet update --yes \
  && apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 git
 
 RUN wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip
-RUN unzip android-sdk.zip -d android-sdk && rm android-sdk.zip
+RUN mkdir android-sdk && unzip android-sdk.zip -d android-sdk/cmdline-tools && rm android-sdk.zip
 
-RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses
-RUN yes | $ANDROID_HOME/tools/bin/sdkmanager --update
-RUN yes | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools"
-RUN yes | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
-RUN yes | $ANDROID_HOME/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
+ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools
+
+RUN yes | sdkmanager --licenses
+RUN yes | sdkmanager --update
+RUN yes | sdkmanager "platform-tools"
+RUN yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
+RUN yes | sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
 
 # Install Gradle
 RUN wget $GRADLE_URL -O gradle.zip \

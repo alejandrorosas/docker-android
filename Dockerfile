@@ -13,11 +13,11 @@ RUN mkdir android-sdk && unzip android-sdk.zip -d android-sdk/cmdline-tools && r
 
 ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools
 
-RUN yes | sdkmanager --licenses
-RUN yes | sdkmanager --update
-RUN yes | sdkmanager "platform-tools"
-RUN yes | sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
-RUN yes | sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
+RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --licenses
+RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager --update
+RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "platform-tools"
+RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS}"
+RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}"
 
 # Install Gradle
 RUN wget $GRADLE_URL -O gradle.zip \

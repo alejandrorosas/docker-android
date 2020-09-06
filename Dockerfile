@@ -3,7 +3,7 @@ FROM openjdk:8
 ENV ANDROID_COMPILE_SDK=29 \
     ANDROID_BUILD_TOOLS=29.0.3 \
     ANDROID_HOME=${PWD}/android-sdk \
-    GRADLE_URL="https://services.gradle.org/distributions/gradle-6.5-all.zip"
+    GRADLE_URL="https://services.gradle.org/distributions/gradle-6.6.1-all.zip"
 
 RUN apt-get --quiet update --yes \
  && apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 git
@@ -22,7 +22,7 @@ RUN yes | $ANDROID_HOME/cmdline-tools/tools/bin/sdkmanager "platforms;android-${
 # Install Gradle
 RUN wget $GRADLE_URL -O gradle.zip \
  && unzip gradle.zip \
- && mv gradle-6.5 gradle \
+ && mv gradle-6.6.1 gradle \
  && rm gradle.zip \
  && mkdir .gradle
 

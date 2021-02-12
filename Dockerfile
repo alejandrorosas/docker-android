@@ -9,15 +9,15 @@ RUN apt-get --quiet update --yes \
  && apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 git
 
 RUN wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
-RUN mkdir android-sdk && mkdir android-sdk/sdk && unzip android-sdk.zip -d android-sdk && rm android-sdk.zip
+RUN mkdir android-sdk && unzip android-sdk.zip -d android-sdk && rm android-sdk.zip
 
 ENV PATH ${PATH}:${ANDROID_HOME}/cmdline-tools
 
-RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME/sdk --licenses
-RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME/sdk --update
-RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME/sdk "platform-tools"
-RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME/sdk "build-tools;${ANDROID_BUILD_TOOLS}"
-RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME/sdk "platforms;android-${ANDROID_COMPILE_SDK}"
+RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
+RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --update
+RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "platform-tools"
+RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "build-tools;${ANDROID_BUILD_TOOLS}"
+RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-${ANDROID_COMPILE_SDK}"
 
 # Install Gradle
 RUN wget $GRADLE_URL -O gradle.zip \
@@ -26,7 +26,7 @@ RUN wget $GRADLE_URL -O gradle.zip \
  && rm gradle.zip \
  && mkdir .gradle
 
-ENV PATH ${PATH}:${PWD}/sdk/platform-tools:${PWD}/gradle/bin
+ENV PATH ${PATH}:${ANDROID_HOME}/platform-tools:${PWD}/gradle/bin
 
 # Run gradle to avoid Welcome message
 RUN gradle --version

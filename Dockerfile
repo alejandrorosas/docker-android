@@ -3,7 +3,7 @@ FROM openjdk:8
 ENV ANDROID_COMPILE_SDK=30 \
     ANDROID_BUILD_TOOLS=30.0.3 \
     ANDROID_HOME=${PWD}/android-sdk \
-    GRADLE_URL="https://services.gradle.org/distributions/gradle-7.0.1-bin.zip"
+    GRADLE_URL="https://services.gradle.org/distributions/gradle-7.0.2-bin.zip"
 
 RUN apt-get --quiet update --yes \
  && apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 git
@@ -22,7 +22,7 @@ RUN yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "p
 # Install Gradle
 RUN wget $GRADLE_URL -O gradle.zip \
  && unzip gradle.zip \
- && mv gradle-7.0.1 gradle \
+ && mv gradle-7.0.2 gradle \
  && rm gradle.zip \
  && mkdir .gradle
 
